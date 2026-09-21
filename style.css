@@ -1,35 +1,79 @@
-body {
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    margin: 0;
-    background: #f2f2f7;
+*{
+    box-sizing:border-box;
 }
 
-header {
-    background: #ffffff;
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #ddd;
+body{
+    font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+    margin:0;
+    padding:0;
+    background:#f2f2f7;
+    color:#111;
 }
 
-#listsContainer {
-    padding: 20px;
+header{
+    background:white;
+    padding:20px;
+    position:sticky;
+    top:0;
+    z-index:100;
+    border-bottom:1px solid #ddd;
 }
 
-.list-card {
-    background: white;
-    padding: 15px;
-    margin-bottom: 15px;
-    border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+h1{
+    margin:0;
+    font-size:28px;
 }
 
-button {
-    background: #007aff;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 10px;
-    font-size: 16px;
+#listsContainer{
+    padding:15px;
+}
+
+.list-card{
+    background:white;
+    padding:15px;
+    margin-bottom:12px;
+    border-radius:16px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+
+button{
+    width:100%;
+    margin-top:8px;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    background:#007aff;
+    color:white;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+button:active{
+    transform:scale(0.98);
+}
+
+input[type="checkbox"]{
+    width:24px;
+    height:24px;
+    margin-right:10px;
+}
+
+h2{
+    margin-top:0;
+}
+
+h3{
+    background:#e5e5ea;
+    padding:10px;
+    border-radius:10px;
+}
+
+@media (min-width:768px){
+
+    #listsContainer{
+        max-width:700px;
+        margin:auto;
+    }
+
 }
