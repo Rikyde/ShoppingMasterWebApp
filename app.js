@@ -64,7 +64,36 @@ function openList(index) {
 
     currentList = index;
 
-    let html = "";
+    const totalItems = lists[index].items.length;
+const completedItems = lists[index].items.filter(i => i.done).length;
+
+const percentage =
+totalItems === 0
+? 0
+: Math.round((completedItems / totalItems) * 100);
+
+let html = `
+<h2>${lists[index].name}</h2>
+
+<p>
+✅ ${completedItems}/${totalItems}
+(${percentage}%)
+</p>
+
+<button onclick="toggleSupermarketMode()">
+🏪 Modalità Supermercato
+</button>
+
+<button onclick="addItem()">
+➕ Aggiungi prodotto
+</button>
+
+<button onclick="renderLists()">
+← Torna alle liste
+</button>
+
+<hr>
+`;
 
     html += `
         <h2>${lists[index].name}</h2>
@@ -95,7 +124,12 @@ function openList(index) {
 
         html += `<h3>${category}</h3>`;
 
-        grouped[category].forEach((item,itemIndex) => {
+       grouped[category]
+.filter(item => {
+    if(!supermarketMode) return true;
+    return !item.done;
+})
+.forEach((item,itemIndex) => {
 
             html += `
                 <div class="list-card">
@@ -145,7 +179,12 @@ function addItem() {
 }
 
 function toggleItem(index) {
+function toggleSupermarketMode(){
 
+    supermarketMode = !supermarketMode;
+
+    openList(currentList);
+}
     const item = lists[currentList].items[index];
 
     item.done = !item.done;
