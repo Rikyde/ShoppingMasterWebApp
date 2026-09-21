@@ -1,3 +1,4 @@
+let supermarketMode = false;
 let lists = JSON.parse(localStorage.getItem("shoppingLists")) || [];
 let currentList = null;
 
