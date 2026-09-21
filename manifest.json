@@ -1,0 +1,15 @@
+{
+    "name": "ShoppingMaster",
+    "short_name": "ShoppingMaster",
+    "start_url": "index.html",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#007aff",
+    "icons": [
+        {
+            "src": "icon.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
