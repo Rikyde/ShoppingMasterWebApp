@@ -1,33 +1,50 @@
-let supermarketMode = false;
 let lists = JSON.parse(localStorage.getItem("shoppingLists")) || [];
+
 let currentList = null;
+let supermarketMode = false;
 
 function saveData() {
-    localStorage.setItem("shoppingLists", JSON.stringify(lists));
+    localStorage.setItem(
+        "shoppingLists",
+        JSON.stringify(lists)
+    );
 }
 
 function renderLists() {
-    const container = document.getElementById("listsContainer");
+
+    const container =
+        document.getElementById("listsContainer");
+
     container.innerHTML = "";
 
     lists.forEach((list, index) => {
 
         const total = list.items.length;
-        const completed = list.items.filter(i => i.done).length;
 
-        const card = document.createElement("div");
+        const completed =
+            list.items.filter(
+                item => item.done
+            ).length;
+
+        const card =
+            document.createElement("div");
+
         card.className = "list-card";
 
         card.innerHTML = `
             <h2>${list.name}</h2>
-            <p>${completed}/${total} acquistati</p>
+
+            <p>
+            ${completed}/${total}
+            acquistati
+            </p>
 
             <button onclick="openList(${index})">
-                Apri Lista
+            Apri Lista
             </button>
 
             <button onclick="deleteList(${index})">
-                Elimina
+            Elimina
             </button>
         `;
 
@@ -35,9 +52,11 @@ function renderLists() {
     });
 }
 
-document.getElementById("addListBtn").onclick = () => {
+document.getElementById("addListBtn")
+.onclick = () => {
 
-    const name = prompt("Nome lista");
+    const name =
+        prompt("Nome lista");
 
     if (!name) return;
 
@@ -52,7 +71,8 @@ document.getElementById("addListBtn").onclick = () => {
 
 function deleteList(index) {
 
-    if (!confirm("Eliminare la lista?")) return;
+    if (!confirm("Eliminare lista?"))
+        return;
 
     lists.splice(index, 1);
 
@@ -64,46 +84,44 @@ function openList(index) {
 
     currentList = index;
 
-    const totalItems = lists[index].items.length;
-const completedItems = lists[index].items.filter(i => i.done).length;
+    const totalItems =
+        lists[index].items.length;
 
-const percentage =
-totalItems === 0
-? 0
-: Math.round((completedItems / totalItems) * 100);
+    const completedItems =
+        lists[index]
+        .items
+        .filter(i => i.done)
+        .length;
 
-let html = `
-<h2>${lists[index].name}</h2>
+    const percentage =
+        totalItems === 0
+        ? 0
+        : Math.round(
+            completedItems /
+            totalItems *
+            100
+          );
 
-<p>
-✅ ${completedItems}/${totalItems}
-(${percentage}%)
-</p>
+    let html = `
+        <h2>
+            ${lists[index].name}
+        </h2>
 
-<button onclick="toggleSupermarketMode()">
-🏪 Modalità Supermercato
-</button>
+        <p>
+        ✅ ${completedItems}/${totalItems}
+        (${percentage}%)
+        </p>
 
-<button onclick="addItem()">
-➕ Aggiungi prodotto
-</button>
-
-<button onclick="renderLists()">
-← Torna alle liste
-</button>
-
-<hr>
-`;
-
-    html += `
-        <h2>${lists[index].name}</h2>
+        <button onclick="toggleSupermarketMode()">
+        🏪 Modalità Supermercato
+        </button>
 
         <button onclick="addItem()">
-            ➕ Aggiungi prodotto
+        ➕ Aggiungi prodotto
         </button>
 
         <button onclick="renderLists()">
-            ← Torna alle liste
+        ← Torna alle liste
         </button>
 
         <hr>
@@ -120,30 +138,43 @@ let html = `
         grouped[item.category].push(item);
     });
 
-    Object.keys(grouped).forEach(category => {
+    Object.keys(grouped)
+    .forEach(category => {
 
         html += `<h3>${category}</h3>`;
 
-       grouped[category]
-.filter(item => {
-    if(!supermarketMode) return true;
-    return !item.done;
-})
-.forEach((item,itemIndex) => {
+        grouped[category]
+
+        .filter(item => {
+
+            if (!supermarketMode)
+                return true;
+
+            return !item.done;
+        })
+
+        .forEach((item, itemIndex) => {
 
             html += `
                 <div class="list-card">
 
                     <input
-                        type="checkbox"
-                        ${item.done ? "checked" : ""}
-                        onchange="toggleItem(${itemIndex})"
+                    type="checkbox"
+                    ${item.done ? "checked" : ""}
+                    onchange="
+                    toggleItem(
+                    ${itemIndex}
+                    )
+                    "
                     >
 
-                    <strong>${item.name}</strong>
+                    <strong>
+                    ${item.name}
+                    </strong>
 
                     <div>
-                        Quantità: ${item.quantity}
+                    Quantità:
+                    ${item.quantity}
                     </div>
 
                 </div>
@@ -151,27 +182,35 @@ let html = `
         });
     });
 
-    document.getElementById("listsContainer").innerHTML = html;
+    document.getElementById(
+        "listsContainer"
+    ).innerHTML = html;
 }
 
 function addItem() {
 
-    const name = prompt("Prodotto");
+    const name =
+        prompt("Prodotto");
 
     if (!name) return;
 
-    const quantity = prompt("Quantità", "1");
+    const quantity =
+        prompt(
+            "Quantità",
+            "1"
+        );
 
-    const category = prompt(
-        "Categoria:\nFrutta\nCarne\nBevande\nPane\nCasa",
-        "Frutta"
-    );
+    const category =
+        prompt(
+"Categoria:\nFrutta\nCarne\nBevande\nPane\nLatticini\nCasa",
+"Frutta"
+        );
 
     lists[currentList].items.push({
         name,
         quantity,
         category,
-        done:false
+        done: false
     });
 
     saveData();
@@ -179,17 +218,23 @@ function addItem() {
 }
 
 function toggleItem(index) {
-function toggleSupermarketMode(){
 
-    supermarketMode = !supermarketMode;
-
-    openList(currentList);
-}
-    const item = lists[currentList].items[index];
+    const item =
+        lists[currentList]
+        .items[index];
 
     item.done = !item.done;
 
     saveData();
+
+    openList(currentList);
+}
+
+function toggleSupermarketMode() {
+
+    supermarketMode =
+        !supermarketMode;
+
     openList(currentList);
 }
 
