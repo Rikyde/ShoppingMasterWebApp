@@ -35,16 +35,16 @@ function renderLists() {
             <h2>${list.name}</h2>
 
             <p>
-            ${completed}/${total}
-            acquistati
+                ${completed}/${total}
+                acquistati
             </p>
 
             <button onclick="openList(${index})">
-            Apri Lista
+                Apri Lista
             </button>
 
             <button onclick="deleteList(${index})">
-            Elimina
+                Elimina
             </button>
         `;
 
@@ -52,11 +52,9 @@ function renderLists() {
     });
 }
 
-document.getElementById("addListBtn")
-.onclick = () => {
+document.getElementById("addListBtn").onclick = () => {
 
-    const name =
-        prompt("Nome lista");
+    const name = prompt("Nome lista");
 
     if (!name) return;
 
@@ -88,40 +86,36 @@ function openList(index) {
         lists[index].items.length;
 
     const completedItems =
-        lists[index]
-        .items
-        .filter(i => i.done)
-        .length;
+        lists[index].items.filter(
+            i => i.done
+        ).length;
 
     const percentage =
         totalItems === 0
         ? 0
         : Math.round(
             completedItems /
-            totalItems *
-            100
-          );
+            totalItems * 100
+        );
 
     let html = `
-        <h2>
-            ${lists[index].name}
-        </h2>
+        <h2>${lists[index].name}</h2>
 
         <p>
-        ✅ ${completedItems}/${totalItems}
-        (${percentage}%)
+            ✅ ${completedItems}/${totalItems}
+            (${percentage}%)
         </p>
 
         <button onclick="toggleSupermarketMode()">
-        🏪 Modalità Supermercato
+            🏪 Modalità Supermercato
         </button>
 
         <button onclick="addItem()">
-        ➕ Aggiungi prodotto
+            ➕ Aggiungi prodotto
         </button>
 
         <button onclick="renderLists()">
-        ← Torna alle liste
+            ← Torna alle liste
         </button>
 
         <hr>
@@ -138,46 +132,48 @@ function openList(index) {
         grouped[item.category].push(item);
     });
 
-    Object.keys(grouped)
-    .forEach(category => {
+    Object.keys(grouped).forEach(category => {
+
+        let visibleItems =
+            grouped[category];
+
+        if (supermarketMode) {
+            visibleItems =
+                visibleItems.filter(
+                    item => !item.done
+                );
+        }
+
+        if (visibleItems.length === 0)
+            return;
 
         html += `<h3>${category}</h3>`;
 
-       grouped[category]
-.filter(item => {
+        visibleItems.forEach(item => {
 
-    if (!supermarketMode)
-        return true;
+            const realIndex =
+                lists[currentList]
+                .items
+                .findIndex(
+                    i => i === item
+                );
 
-    return !item.done;
-})
-
-.forEach((item) => {
-
-    const realIndex =
-        lists[currentList]
-        .items
-        .findIndex(i => i === item);
             html += `
                 <div class="list-card">
 
                     <input
-                    type="checkbox"
-                    ${item.done ? "checked" : ""}
-                    onchange="
-                    toggleItem(
-${realIndex}
-)
-                    "
+                        type="checkbox"
+                        ${item.done ? "checked" : ""}
+                        onchange="toggleItem(${realIndex})"
                     >
 
                     <strong>
-                    ${item.name}
+                        ${item.name}
                     </strong>
 
                     <div>
-                    Quantità:
-                    ${item.quantity}
+                        Quantità:
+                        ${item.quantity}
                     </div>
 
                 </div>
@@ -205,8 +201,15 @@ function addItem() {
 
     const category =
         prompt(
-"Categoria:\nFrutta\nCarne\nBevande\nPane\nLatticini\nCasa",
-"Frutta"
+`Categoria:
+
+Frutta
+Carne
+Bevande
+Pane
+Latticini
+Casa`,
+            "Frutta"
         );
 
     lists[currentList].items.push({
@@ -222,11 +225,12 @@ function addItem() {
 
 function toggleItem(index) {
 
-    const item =
-        lists[currentList]
-        .items[index];
-
-    item.done = !item.done;
+    lists[currentList]
+        .items[index]
+        .done =
+    !lists[currentList]
+        .items[index]
+        .done;
 
     saveData();
 
