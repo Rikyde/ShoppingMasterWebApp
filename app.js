@@ -143,18 +143,21 @@ function openList(index) {
 
         html += `<h3>${category}</h3>`;
 
-        grouped[category]
+       grouped[category]
+.filter(item => {
 
-        .filter(item => {
+    if (!supermarketMode)
+        return true;
 
-            if (!supermarketMode)
-                return true;
+    return !item.done;
+})
 
-            return !item.done;
-        })
+.forEach((item) => {
 
-        .forEach((item, itemIndex) => {
-
+    const realIndex =
+        lists[currentList]
+        .items
+        .findIndex(i => i === item);
             html += `
                 <div class="list-card">
 
@@ -163,8 +166,8 @@ function openList(index) {
                     ${item.done ? "checked" : ""}
                     onchange="
                     toggleItem(
-                    ${itemIndex}
-                    )
+${realIndex}
+)
                     "
                     >
 
